@@ -1,15 +1,14 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional
+from . import users
 
 
 class PostBase(BaseModel):
     '''' Base Post model for incoming post requests; inherits from pydantic.BaseModel'''
     title: str
     content: str
-    published: bool = True # if a default value is provided, the variable is optional
-    rating: Optional[int] = None
-
+    published: bool = True # default
+    
 
 class PostCreate(PostBase):
     '''Model used for validating PUT requests'''
@@ -20,6 +19,8 @@ class PostResponse(PostBase):
     '''Model used for validating Post responses'''
     id: int
     created_at: datetime
+    username: str
+    owner: users.UserResponse # UserResponse Pydantic model
     
     class Config:
         orm_mode = True # orm_mode = true will tell the pydantic model to read the data 
@@ -27,3 +28,9 @@ class PostResponse(PostBase):
                         # arbitrary object with attributes) 
                         # Basically, it converts a SQLAlchemy model into a Pydantic model
 
+class PostVoteResponse(BaseModel):
+    Post: PostResponse
+    votes: int 
+
+    class Config:
+        orm_mode = True
