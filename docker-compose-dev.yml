@@ -1,0 +1,36 @@
+version: "3"
+services: 
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    volumes: # This is a "bind mount -- allows us to sync a folder on our local machine with a folder in the container".
+      - ./:/usr/src/app:ro  # The path to the folder we want to sync on our local machine
+    # env_file:
+    #   - ./.env    
+    environment:
+      - DATABASE_HOSTNAME=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=password__123!!
+      - DATABASE_NAME=fastAPI_1
+      - DATABASE_USERNAME=postgres
+      - SECRET_KEY=sometime_my_arms_bend_back_____32!&^^42
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=120
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1 --reload # Note: this command overrides the one in the dockerfile
+    depends_on:
+      - postgres  # will start to spin up the postgres container first, then the api container
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=fastAPI_1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password__123!!
+  
+    volumes: 
+      - postgres-db:/var/lib/postgresql/data    # This is the path in the container that postgres will write to (outside of the container)
+                                                # In other words, data persistance. 
+volumes:
+  postgres-db:  # Globally defined; this will allow for access from multiple containers
+    
