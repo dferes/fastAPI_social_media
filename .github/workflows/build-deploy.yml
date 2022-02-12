@@ -8,6 +8,16 @@ on:
 
 jobs:
   job1:
+    env:
+      DATABASE_HOSTNAME: ${{secrest.DATABASE_HOSTNAME}}
+      DATABASE_PORT: ${{secrest.DATABASE_PORT}}
+      DATABASE_PASSWORD: ${{secrest.DATABASE_PASSWORD}}
+      DATABASE_NAME: ${{secrest.DATABASE_NAME}}
+      DATABASE_USERNAME: ${{secrest.DATABASE_USERNAME}}
+      SECRET_KEY: ${{secrest.SECRET_KEY}}
+      ALGORITHM: ${{secrest.ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrest.ACCESS_TOKEN_EXPIRE_MINUTES}}
+      TEST_DATABASE_NAME: ${{secrest.TEST_DATABASE_NAME}}
     runs-on: ubuntu-latest
     steps: 
       - name: pulling git repo 
