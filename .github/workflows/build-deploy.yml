@@ -8,6 +8,8 @@ on:
 
 jobs:
   job1:
+    environment:
+      name: Testing
     env:
       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
       DATABASE_PORT: ${{secrets.DATABASE_PORT}}
@@ -18,6 +20,7 @@ jobs:
       ALGORITHM: ${{secrets.ALGORITHM}}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
       TEST_DATABASE_NAME: ${{secrets.TEST_DATABASE_NAME}}
+    
     services:
       postgres: 
         image: postgres
@@ -31,6 +34,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retires 5
+    
     runs-on: ubuntu-latest
     steps: 
       - name: pulling git repo 
