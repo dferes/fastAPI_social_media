@@ -20,7 +20,7 @@ class PostResponse(PostBase):
     id: int
     created_at: datetime
     username: str
-    owner: users.UserResponse # UserResponse Pydantic model
+    owner: users.UserResponse
     
     class Config:
         orm_mode = True # orm_mode = true will tell the pydantic model to read the data 

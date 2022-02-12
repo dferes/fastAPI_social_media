@@ -1,6 +1,5 @@
 from sqlalchemy.sql.expression import text
 from sqlalchemy import ForeignKey
-# from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import TIMESTAMP, Boolean, String
 from .database import Base
 from sqlalchemy import Column, Integer, String, Boolean
@@ -23,7 +22,7 @@ class Post(Base):
 class User(Base):
     __tablename__ = 'users'
     
-    username = Column(String, primary_key=True, nullable=False) # Don't use id for PK
+    username = Column(String, primary_key=True, nullable=False)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
@@ -34,4 +33,3 @@ class Vote(Base):
     
     username = Column(String, ForeignKey('users.username', ondelete='cascade'), primary_key=True)
     post_id = Column(Integer, ForeignKey('posts.id', ondelete='cascade'), primary_key=True)    
-    

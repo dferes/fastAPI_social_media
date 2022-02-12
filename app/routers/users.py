@@ -12,11 +12,6 @@ router = APIRouter(
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    # user_check = db.query(models.User).filter(models.User.username == user.dict()['username'])
-    # print('----------------------------------------------', user_check)
-    # if user_check.first():
-    #     raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-    #                         detail=f"Username {user.dict()['username']} already taken.")
     hashed_pw = utils.hash(user.password)
     user.password = hashed_pw
     

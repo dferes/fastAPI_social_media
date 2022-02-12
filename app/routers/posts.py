@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from sqlalchemy import func
 
+
 router = APIRouter(
     prefix='/posts',
     tags=['Posts']
@@ -27,6 +28,7 @@ limit: int = 10, owner: str = None, skip: int = 0, search: Optional[str] = ''):
     
     return posts
 
+
 @router.get('/{id}', response_model=PostVoteResponse)
 def get_post(id: int, db: Session = Depends(get_db), current_user: str = Depends(oauth2.get_current_user)):
     post = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
@@ -40,7 +42,7 @@ def get_post(id: int, db: Session = Depends(get_db), current_user: str = Depends
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=PostResponse)
 def create_post(post: PostCreate, db: Session = Depends(get_db), user: str = Depends(oauth2.get_current_user)):
-    new_post = models.Post(username=user.username, **post.dict()) # illegal syntax...but it works for now. Consider making a function for this.     
+    new_post = models.Post(username=user.username, **post.dict()) # unpacking syntax 
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
@@ -81,7 +83,7 @@ def delete(id: int, db: Session = Depends(get_db), current_user: str = Depends(o
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail='Not authorized to perform requested action.')
         
-    post_query.delete(synchronize_session=False) # Look this up again. Forgot how it works.
+    post_query.delete(synchronize_session=False)
     db.commit()
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
