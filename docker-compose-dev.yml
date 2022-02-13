@@ -6,8 +6,7 @@ services:
       - 8000:8000
     volumes: # This is a "bind mount -- allows us to sync a folder on our local machine with a folder in the container".
       - ./:/usr/src/app:ro  # The path to the folder we want to sync on our local machine
-    # env_file:
-    #   - ./.env    
+    
     environment:
       - DATABASE_HOSTNAME=postgres
       - DATABASE_PORT=5432
@@ -27,6 +26,7 @@ services:
       - POSTGRES_DB=fastAPI_1
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password__123!!
+      - POSTGRES_HOST_AUTH_METHOD=trust
   
     volumes: 
       - postgres-db:/var/lib/postgresql/data    # This is the path in the container that postgres will write to (outside of the container)
