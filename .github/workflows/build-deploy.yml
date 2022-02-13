@@ -50,4 +50,4 @@ jobs:
       - name: test with pytest
         run: |
           pip install pytest
-          pytest -vs      
+          python -m pytest -v      
