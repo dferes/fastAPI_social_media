@@ -16,6 +16,7 @@ services:
       - SECRET_KEY=sometime_my_arms_bend_back_____32!&^^42
       - ALGORITHM=HS256
       - ACCESS_TOKEN_EXPIRE_MINUTES=120
+      - TEST_DATABASE_NAME=test_reddit
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1 --reload # Note: this command overrides the one in the dockerfile
     depends_on:
       - postgres  # will start to spin up the postgres container first, then the api container
@@ -26,7 +27,6 @@ services:
       - POSTGRES_DB=fastAPI_1
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password__123!!
-      - POSTGRES_HOST_AUTH_METHOD=trust
   
     volumes: 
       - postgres-db:/var/lib/postgresql/data    # This is the path in the container that postgres will write to (outside of the container)
